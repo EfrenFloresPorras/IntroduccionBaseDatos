@@ -1,0 +1,53 @@
+-- create table for transactions
+
+CREATE TABLE transactions (
+        transactions_number integer primary key autoincrement,
+        cost integer not null,
+        specific_date date,
+        asssigned_name text not null
+        phone integer not null,
+        array[articles] text not null, 
+        delivery_address integer not null
+    );
+
+
+-- create table for entertainment_articles
+
+CREATE TABLE entertainment_articles (
+        foreign key(transactions_number) references transactions(transactions_number),
+        stock integer not null,
+        article_type text primary key autoincrement 
+    );
+
+
+-- create table for providers
+
+CREATE TABLE providers (
+        provider_id integer primary key autoincrement,
+        center_id integer not null,
+        manager_name text not null, 
+        manager_id integer primary key autoincrement, 
+        phone integer not null,
+        foreign key (article_type) references entretainment_articles(article_type)
+    );
+
+
+-- create junction table for distribution_centers
+
+CREATE TABLE distribution_centers (
+        center_id integer primary key autoincrement,
+        center_name text not null, 
+        foreign key(manager_id) references providers(manager_id),
+        employee_total integer not null
+    );
+
+
+-- create junction table for logistics
+
+CREATE TABLE transaction_items (
+        foreign key(transactions_number) references transactions(transactoins_number),
+        foreign key(articles) references transactions(articles),
+        foreign key(provider_id) references providers(provider_id),
+        foreign key(delivery_address) references transactions(delivery_address),
+        foreign key(center_id) references logistics(center_id)
+    );

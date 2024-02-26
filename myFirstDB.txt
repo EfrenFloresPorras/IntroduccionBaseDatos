@@ -1,0 +1,50 @@
+CREATE TABLE `videos` (
+  `video_id` string,
+  `description` string,
+  `upload_date` date,
+  `views` integer,
+  `name` string,
+  `likes` long,
+  `dislikes` long,
+  `technical_details` string (dict),
+  `channel_id` string,
+  `video_type` string,
+  PRIMARY KEY (`video_id`)
+);
+
+CREATE TABLE `channels` (
+  `channel_id` string,
+  `channel_name` string,
+  `upload_date` string,
+  `subscriptions` long,
+  `creation_date` date,
+  `partner` bool,
+  `uploaded_videos` integer,
+  `channel_type` string,
+  `user_id` string,
+  PRIMARY KEY (`channel_id`)
+);
+
+CREATE TABLE `users` (
+  `user_id` string,
+  `user_name` string,
+  `phone_number` string,
+  `email` string,
+  `channel_subs` long,
+  `creation_date` date,
+  `brithday` date,
+  PRIMARY KEY (`user_id`)
+);
+
+CREATE TABLE `users_activity` (
+  `user_id` string,
+  `activity_type` string,
+  `activity_datetime` datetime,
+  `details_key` string,
+  `details_value` string,
+  `activity_id` string,
+  PRIMARY KEY (`activity_id`),
+  FOREIGN KEY (`details_value`) REFERENCES `videos`(`video_id`),
+  FOREIGN KEY (`details_value`) REFERENCES `channels`(`channel_id`),
+  FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`)
+);
